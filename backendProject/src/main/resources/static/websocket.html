@@ -153,7 +153,7 @@
             // 채팅방 입장할 때 채팅창을 초기화
             document.getElementById("chatArea").innerHTML = "";
 
-            showSysMsg(`[${nickname}]님이 방 [${roomId}]에 입장했습니다.`);
+            showSysMsg(`[${escapeHtml(nickname)}]님이 방 [${escapeHtml(roomId)}]에 입장했습니다.`);
             document.getElementById("chatWrapper").classList.remove("hidden");
             document.getElementById("enterRow").classList.add("hidden");
             document.getElementById("roomList").classList.add("hidden");
@@ -216,7 +216,7 @@
 
     function showMessage(from, message) {
         const chatArea = document.getElementById("chatArea");
-        chatArea.innerHTML += `<div class="msgrow"><span class="from">${from}:</span> ${message}</div>`;
+        chatArea.innerHTML += `<div class="msgrow"><span class="from">${escapeHtml(from)}:</span> ${escapeHtml(message)}</div>`;
         chatArea.scrollTop = chatArea.scrollHeight;
     }
     function showSysMsg(msg) {
@@ -228,6 +228,15 @@
     document.getElementById('msg').addEventListener('keydown', function(e) {
         if (e.key === 'Enter') sendMessage();
     });
+
+    function escapeHtml(unsafe) {
+        return unsafe
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
 </script>
 </body>
 </html>

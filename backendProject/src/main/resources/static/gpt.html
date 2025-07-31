@@ -99,20 +99,28 @@
             showSystemMsg("방 [" + room + "]에 입장하였습니다.");
         });
     }
+    function escapeHtml(unsafe) {
+        return unsafe
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
     function showMessage(from, message) {
         const messagesDiv = document.getElementById('messages');
         const msgElem = document.createElement('div');
         let fromClass = 'from-user';
         if (from === myName) fromClass = 'from-me';
         else if (from === 'GPT' || from === '난 GPT') fromClass = 'from-gpt';
-        msgElem.innerHTML = `<span class="${fromClass}">${from}</span>: ${message}`;
+        msgElem.innerHTML = `<span class="${fromClass}">${escapeHtml(from)}</span>: ${escapeHtml(message)}`;
         messagesDiv.appendChild(msgElem);
         messagesDiv.scrollTop = messagesDiv.scrollHeight;
     }
     function showSystemMsg(message) {
         const messagesDiv = document.getElementById('messages');
         const msgElem = document.createElement('div');
-        msgElem.innerHTML = `<span class="system">${message}</span>`;
+        msgElem.innerHTML = `<span class="system">${escapeHtml(message)}</span>`;
         messagesDiv.appendChild(msgElem);
         messagesDiv.scrollTop = messagesDiv.scrollHeight;
     }
